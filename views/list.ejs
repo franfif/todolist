@@ -1,0 +1,47 @@
+<%- include('header') -%>
+
+  <div class='box' id='heading'>
+    <h1>
+      <%= listTitle==='Today' ? day : listTitle %>
+    </h1>
+  </div>
+
+  <div class='box'>
+    <% newListItems.forEach((item)=> { %>
+      <form action='/delete' method='post'>
+        <div class='item'>
+          <input type='checkbox' name='checkDelete' value='<%= JSON.stringify([listTitle, item]) %>'
+            onChange='this.form.submit()'>
+          <p>
+            <%= item.name %>
+          </p>
+        </div>
+      </form>
+      <% }) %>
+
+
+        <form class='item' action='/' method='post'>
+          <input type='text' name='newItem' placeholder='New Item' autocomplete='off'>
+          <button type='submit' name='list' value=<%=listTitle %>>+</button>
+        </form>
+  </div>
+
+
+  <% if (oldListItems.length !==0) { %>
+    <div class='box box-checked'>
+
+      <% oldListItems.forEach((item)=> { %>
+        <form action='/restore' method='post'>
+          <div class='item-checked'>
+            <input type="hidden" name=checkRestore value='<%= JSON.stringify([listTitle, item]) %>'>
+            <input type='checkbox' name=checkRestore checked onclick='this.form.submit()' value='<%=item._id %>'>
+            <p>
+              <%= item.name %>
+            </p>
+          </div>
+        </form>
+        <% }) %>
+    </div>
+    <% } %>
+
+      <%- include('footer') -%>
